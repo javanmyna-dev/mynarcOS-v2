@@ -48,7 +48,14 @@
             window.supabase.auth.signInWithOtp({
                 email: email,
                 options: {
-                    emailRedirectTo: window.location.origin + '/check-in.html'
+                    // GitHub Pages serves from a subdirectory (e.g. /mynarcOS-v2/),
+                    // so window.location.origin + '/check-in.html' would point to the
+                    // wrong path. Compute the base path from the current page's URL.
+                    emailRedirectTo: (function () {
+                        var path = window.location.pathname;
+                        var base = path.substring(0, path.lastIndexOf('/') + 1);
+                        return window.location.origin + base + 'check-in.html';
+                    })()
                 }
             }).then(function (result) {
                 if (result.error) {

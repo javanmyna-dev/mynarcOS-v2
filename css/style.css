@@ -277,6 +277,18 @@ a:hover { text-decoration: underline; }
     max-width: 400px;
 }
 
+/* ===== [hidden] fix =====
+   Classes like .banner, .auth-state, and .btn set display: flex/inline-flex.
+   Those override the browser's [hidden] { display: none } because class
+   selectors have higher specificity than attribute selectors in the UA sheet.
+   This rule restores the correct behaviour: a hidden element stays hidden
+   regardless of what its class says about display. */
+.banner[hidden],
+.auth-state[hidden],
+.btn[hidden] {
+    display: none;
+}
+
 /* ===== Auth page ===== */
 .auth-card {
     max-width: 420px;
@@ -332,6 +344,17 @@ a:hover { text-decoration: underline; }
 .form-input--textarea {
     resize: vertical;
     min-height: 80px;
+}
+
+/* Prevent browser autofill from painting a white/yellow background
+   over the dark-theme input. -webkit-box-shadow with an inset spread
+   is the most reliable way to override Chrome's autofill styles. */
+.form-input:-webkit-autofill,
+.form-input:-webkit-autofill:hover,
+.form-input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 30px var(--bg) inset !important;
+    -webkit-text-fill-color: var(--text) !important;
+    caret-color: var(--text);
 }
 
 /* ===== Buttons ===== */
