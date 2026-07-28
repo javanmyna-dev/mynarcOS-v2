@@ -173,19 +173,19 @@ The developer should understand the code being written.
 
 ### Milestone 1: Foundation
 
-- [/] Create the static page skeleton (`index.html`, `check-in.html`,
+- [x] Create the static page skeleton (`index.html`, `check-in.html`,
       `progress.html`) with shared navigation.
-- [ ] Set up `css/style.css` with a dark theme + teal accent, using CSS
+- [x] Set up `css/style.css` with a dark theme + teal accent, using CSS
       variables so colors/spacing are defined once and reused.
-- [ ] Build a single reusable JS template function for rendering dashboard
+- [x] Build a single reusable JS template function for rendering dashboard
       stat cards, instead of duplicating HTML per card — this is the direct
       fix for inconsistent-looking panels.
 - [ ] Wire up the Supabase client (`js/supabase.js`) with safe key handling —
       no secrets committed.
 - [ ] Confirm the Supabase connection works (a simple console-log ping is
       enough at this stage).
-- [ ] Add empty-state placeholders on all dashboard cards.
-- [ ] Confirm the site runs locally via a static file server, no build step
+- [x] Add empty-state placeholders on all dashboard cards.
+- [x] Confirm the site runs locally via a static file server, no build step
       required.
 
 ### Milestone 2: Daily journal
