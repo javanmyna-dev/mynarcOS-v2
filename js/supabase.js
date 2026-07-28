@@ -30,6 +30,16 @@
  */
 
 ;(function () {
+
+    /**
+     * Helper: waits until the Supabase client is ready, then calls cb().
+     * Use this in any script that needs `window.supabase` before proceeding,
+     * since the CDN load is async. Other pages can call window._waitForSupabase.
+     */
+    window._waitForSupabase = function (cb) {
+        if (window.supabase) return cb();
+        setTimeout(function () { window._waitForSupabase(cb); }, 100);
+    };
     // Guard: if config wasn't loaded, Supabase can't initialise
     if (typeof SUPABASE_URL === 'undefined' || typeof SUPABASE_ANON_KEY === 'undefined') {
         console.warn(

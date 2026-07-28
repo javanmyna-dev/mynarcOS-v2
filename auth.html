@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mynarcOS — Login</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- ===== Shared Navigation ===== -->
+    <nav class="nav">
+        <span class="nav-logo">mynarc<span>OS</span></span>
+        <ul class="nav-links">
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="check-in.html">Check-in</a></li>
+            <li><a href="progress.html">Progress</a></li>
+            <li><a href="auth.html" class="active">Login</a></li>
+        </ul>
+    </nav>
+
+    <!-- ===== Login ===== -->
+    <main class="page">
+        <div class="auth-card" id="auth-card">
+            <h1 class="page-title">Log In</h1>
+            <p class="page-subtitle">Enter your email to receive a magic link — no password needed.</p>
+
+            <form class="auth-form" id="auth-form">
+                <div class="form-group">
+                    <label class="form-label" for="email">Email</label>
+                    <input class="form-input" type="email" id="email" placeholder="you@example.com" required autofocus>
+                </div>
+                <button class="btn btn--primary" type="submit">Send Magic Link</button>
+            </form>
+
+            <div class="auth-state auth-state--sent" id="auth-sent" hidden>
+                <div class="auth-state-icon">&#9993;&#65039;</div>
+                <p class="auth-state-title">Check your email</p>
+                <p class="auth-state-body">We sent a magic link to <strong id="sent-email"></strong>. Click the link in the email to log in.</p>
+                <p class="auth-state-hint">Didn't get it? Check spam, or <a href="#" id="resend-link">send another</a>.</p>
+            </div>
+
+            <div class="auth-state" id="auth-error" hidden>
+                <div class="auth-state-icon">&#9888;&#65039;</div>
+                <p class="auth-state-body" id="auth-error-msg"></p>
+                <button class="btn btn--secondary" id="auth-retry">Try again</button>
+            </div>
+
+            <div class="auth-state" id="auth-already" hidden>
+                <p class="auth-state-body">You are already logged in.</p>
+                <a class="btn btn--primary" href="check-in.html">Go to Check-in</a>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/config.js"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

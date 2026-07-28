@@ -16,6 +16,7 @@
             <li><a href="index.html" class="active">Dashboard</a></li>
             <li><a href="check-in.html">Check-in</a></li>
             <li><a href="progress.html">Progress</a></li>
+            <li><a href="auth.html">Login</a></li>
         </ul>
     </nav>
 
@@ -97,6 +98,62 @@
                     No entries yet. Head over to <a href="check-in.html">Check-in</a> to write your first one.
                 </div>
             </div>`
+
+        // Live Mood card: fetch today's mood and update the dashboard card.
+        // Uses _waitForSupabase from supabase.js because the CDN load is async.
+        window._waitForSupabase(function () {
+            window.supabase.auth.getSession().then(function (sessionResult) {
+                if (!sessionResult.data.session) return;
+
+                var userId = sessionResult.data.session.user.id;
+                var today = (function () {
+                    var d = new Date();
+                    return d.getFullYear() + '-' +
+                           String(d.getMonth() + 1).padStart(2, '0') +
+                           String(d.getDate()).padStart(2, '0');
+                })();
+
+                window.supabase
+                    .from('journal_entries')
+                    .select('mood')
+                    .eq('user_id', userId)
+                    .eq('entry_date', today)
+                    .maybeSingle()
+                    .then(function (result) {
+                        if (result.error || !result.data || result.data.mood === null) return;
+
+                        var mood = result.data.mood;
+                        var labels = ['Terrible', 'Low', 'Meh', 'Good', 'Amazing'];
+
+                        var cards = document.querySelectorAll('#stat-cards .card');
+                        for (var i = 0; i < cards.length; i++) {
+                            var titleEl = cards[i].querySelector('.card-title');
+                            if (titleEl && titleEl.textContent.trim() === 'MOOD INDEX') {
+                                // Remove empty state if present
+                                var emptyEl = cards[i].querySelector('.card-empty');
+                                if (emptyEl) emptyEl.remove();
+
+                                // Remove any stale value/subtitle before adding fresh ones
+                                var oldVal = cards[i].querySelector('.card-value');
+                                if (oldVal) oldVal.remove();
+                                var oldSub = cards[i].querySelector('.card-subtitle');
+                                if (oldSub) oldSub.remove();
+
+                                var valueEl = document.createElement('div');
+                                valueEl.className = 'card-value';
+                                valueEl.textContent = mood;
+
+                                var subtitleEl = document.createElement('div');
+                                subtitleEl.className = 'card-subtitle';
+                                subtitleEl.textContent = labels[mood - 1];
+
+                                cards[i].appendChild(valueEl);
+                                cards[i].appendChild(subtitleEl);
+                            }
+                        }
+                    });
+            });
+        });
     </script>
 
 </body>

@@ -16,22 +16,95 @@
             <li><a href="index.html">Dashboard</a></li>
             <li><a href="check-in.html" class="active">Check-in</a></li>
             <li><a href="progress.html">Progress</a></li>
+            <li><a href="auth.html" id="nav-auth">Login</a></li>
         </ul>
     </nav>
 
-    <!-- ===== Check-in (placeholder) ===== -->
+    <!-- ===== Check-in ===== -->
     <main class="page">
         <h1 class="page-title">Daily Check-in</h1>
-        <p class="page-subtitle">Your daily reflection — coming in Milestone 2.</p>
+        <p class="page-subtitle">Track your mood, sanity, and productivity — one entry per day.</p>
 
-        <div class="empty-page">
-            <span class="empty-page-icon">📝</span>
-            <p class="empty-page-text">
-                The check-in form goes here. It'll ask about your mood, energy, sleep,
-                what you accomplished, and what's on your mind — one entry per day.
-            </p>
+        <!-- Auth gate: shown when not logged in -->
+        <div class="banner banner--info" id="auth-gate" hidden>
+            <span class="banner-icon">&#128274;</span>
+            <span><a href="auth.html">Log in</a> to start checking in. Your data is private and protected.</span>
         </div>
+
+        <!-- Error banner: Supabase write/load failure -->
+        <div class="banner banner--error" id="error-banner" hidden>
+            <span class="banner-icon">&#9888;&#65039;</span>
+            <span id="error-msg"></span>
+            <button class="btn btn--secondary btn--sm" id="error-retry">Retry</button>
+        </div>
+
+        <!-- Warning banner: partial check-in -->
+        <div class="banner banner--warning" id="warning-banner" hidden>
+            <span class="banner-icon">&#9888;&#65039;</span>
+            <span>Some fields are empty. Your entry was saved, but filling in all indices gives you better insights later.</span>
+        </div>
+
+        <!-- Date picker -->
+        <div class="checkin-date-row">
+            <label class="form-label" for="entry-date">Date</label>
+            <input class="form-input form-input--date" type="date" id="entry-date">
+        </div>
+
+        <!-- Summary view (shown when entry exists for selected date) -->
+        <div class="checkin-summary" id="checkin-summary" hidden>
+            <div class="index-summary" id="summary-content"></div>
+            <button class="btn btn--primary" id="edit-btn">Edit</button>
+        </div>
+
+        <!-- Form (shown when no entry, or after clicking Edit) -->
+        <form class="checkin-form" id="checkin-form">
+            <!-- Mood -->
+            <fieldset class="index-group" id="group-mood">
+                <legend class="index-group-title">Mood</legend>
+                <div class="radio-grid" id="radio-mood"></div>
+            </fieldset>
+
+            <!-- Sanity -->
+            <fieldset class="index-group" id="group-sanity">
+                <legend class="index-group-title">Sanity</legend>
+                <div class="radio-grid" id="radio-sanity"></div>
+            </fieldset>
+
+            <!-- Productivity -->
+            <fieldset class="index-group">
+                <legend class="index-group-title">Productivity</legend>
+
+                <div class="index-subgroup">
+                    <span class="index-subgroup-label">Coding</span>
+                    <div class="radio-grid" id="radio-prod_coding"></div>
+                </div>
+
+                <div class="index-subgroup">
+                    <span class="index-subgroup-label">Drawing</span>
+                    <div class="radio-grid" id="radio-prod_drawing"></div>
+                </div>
+
+                <div class="index-subgroup">
+                    <span class="index-subgroup-label">Reading</span>
+                    <div class="radio-grid" id="radio-prod_reading"></div>
+                </div>
+            </fieldset>
+
+            <!-- Reflection -->
+            <div class="form-group">
+                <label class="form-label" for="reflection">Reflection (optional)</label>
+                <textarea class="form-input form-input--textarea" id="reflection" rows="4" placeholder="What's on your mind?"></textarea>
+            </div>
+
+            <div class="checkin-actions">
+                <button class="btn btn--primary" type="submit">Save Check-in</button>
+                <button class="btn btn--secondary" type="button" id="cancel-edit-btn" hidden>Cancel</button>
+            </div>
+        </form>
     </main>
 
+    <script src="js/config.js"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/check-in.js"></script>
 </body>
 </html>
