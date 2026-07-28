@@ -1,0 +1,9 @@
+# Supabase configuration — contains API keys
+# The anon key is safe to expose client-side (protected by RLS),
+# but we don't commit it to keep config tidy and avoid accidental
+# misuse if the repo ever becomes public.
+js/config.js
+
+# OS files
+.DS_Store
+Thumbs.db

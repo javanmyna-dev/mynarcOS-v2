@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mynarcOS — Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- ===== Shared Navigation ===== -->
+    <nav class="nav">
+        <span class="nav-logo">mynarcOS</span>
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">Dashboard</a></li>
+            <li><a href="check-in.html">Check-in</a></li>
+            <li><a href="progress.html">Progress</a></li>
+        </ul>
+    </nav>
+
+    <!-- ===== Dashboard ===== -->
+    <main class="page">
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-subtitle">Your stats at a glance. Data appears here once you start checking in.</p>
+
+        <!-- Stat cards -->
+        <div class="card-grid" id="stat-cards">
+            <!-- Populated by cards.js — see js/cards.js for the renderCard() function -->
+        </div>
+
+        <!-- Journal feed -->
+        <section>
+            <h2 class="section-title">Recent Journal Entries</h2>
+            <div class="journal-feed" id="journal-feed">
+                <!-- Populated by cards.js -->
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== Scripts (order matters: config → cards → main init) ===== -->
+    <script src="js/config.js"></script>
+    <script src="js/cards.js"></script>
+    <script src="js/supabase.js"></script>
+    <script>
+        /**
+         * index.html — Dashboard initialisation
+         *
+         * All cards are rendered from a single data array through
+         * renderCardGrid(). To add or remove a card, just edit the
+         * array — no HTML duplication.
+         */
+
+        // Stat cards: each object defines one card's content.
+        // All fields are optional; omit them for empty-state cards.
+        const statCards = [
+            {
+                icon: '💤',
+                title: 'Sleep Score',
+                empty: 'No sleep data yet — check in to start tracking'
+            },
+            {
+                icon: '😊',
+                title: 'Mood Index',
+                empty: 'Log your mood daily to see patterns'
+            },
+            {
+                icon: '💧',
+                title: 'Hydration',
+                empty: 'Track water intake to build the habit'
+            },
+            {
+                icon: '💰',
+                title: 'Liquid Assets',
+                empty: 'Financial snapshot will appear here'
+            },
+            {
+                icon: '⚡',
+                title: 'Energy',
+                empty: 'Rate your daily energy level'
+            },
+            {
+                icon: '✅',
+                title: 'Daily Checklist',
+                empty: 'Habits &amp; tasks will show here'
+            }
+        ]
+
+        renderCardGrid('stat-cards', statCards)
+
+        // Journal feed: empty-state placeholder entry
+        const journalContainer = document.getElementById('journal-feed')
+        journalContainer.innerHTML = `
+            <div class="journal-entry">
+                <div class="journal-entry-date">—</div>
+                <div class="journal-entry-body">
+                    No entries yet. Head over to <a href="check-in.html">Check-in</a> to write your first one.
+                </div>
+            </div>`
+    </script>
+
+</body>
+</html>
