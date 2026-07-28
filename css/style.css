@@ -10,14 +10,9 @@
     --text-dim:       #484f58;
 
     /* Accent — teal, matches the mynarcOS wordmark */
-    --accent:         #3fb950;  /* keep as-is for now; can swap to teal if logo changes */
-    --accent-dim:     #1a3a2a;
-    --accent-glow:    0 0 12px rgba(63, 185, 80, 0.25);
-
-    /* Note: the logo uses a teal shade. The CSS variable above is green-leaning
-       and kept flexible — swap the hex to a teal like #2dd4bf once the final
-       palette is locked. All cards reference var(--accent), so one change
-       updates the entire UI. */
+    --accent:         #2dd4bf;
+    --accent-dim:     #134e4a;
+    --accent-glow:    0 0 12px rgba(45, 212, 191, 0.25);
 
     /* Spacing scale */
     --space-xs: 4px;
@@ -28,8 +23,8 @@
     --space-2xl: 48px;
 
     /* Type */
-    --font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-    --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+    --font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
     --radius: 8px;
 }
 
@@ -72,11 +67,16 @@ a:hover { text-decoration: underline; }
 }
 
 .nav-logo {
+    font-family: var(--font-mono);
     font-size: 1.25rem;
-    font-weight: 700;
+    font-weight: 800;
     color: var(--accent);
-    letter-spacing: -0.02em;
+    letter-spacing: -1px;
     user-select: none;
+}
+.nav-logo span {
+    color: var(--text-dim);
+    font-weight: 300;
 }
 
 .nav-links {
